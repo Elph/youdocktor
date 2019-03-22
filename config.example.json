@@ -1,0 +1,14 @@
+{
+    "timeDoctor":{
+        "clientID":"<timedoctor app client id>",
+        "clientSecret":"<timedoctor app client secret>",
+        "redirectURL":"http://localhost:3013/callback",
+        "accessToken":"<access token>",
+        "refreshToken":"<refresh token>",
+        "expiry":"2019-03-23 00:00:00",
+        "companyID":"your timedoctor company ID"
+    },
+    "youTrack":{
+        "token":"<Youtrack Token>"
+    }
+}
