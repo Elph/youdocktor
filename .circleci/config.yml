@@ -1,0 +1,32 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.11.4
+    steps:
+      - checkout
+      - run: cp config.test.json config.json
+      - run: go mod download
+      - run: go test -v ./...
+  release:
+    docker:
+      - image: circleci/golang:1.11.4
+    steps:
+      - checkout
+      - run: curl -sL https://git.io/goreleaser | bash
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+  release:
+    jobs:
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*(-.*)*/

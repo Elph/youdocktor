@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"log"
+	"fmt"
 	"time"
 
 	logger "github.com/sirupsen/logrus"
@@ -10,6 +10,12 @@ import (
 )
 
 const dateFormatLayout = "2006-01-02"
+
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
 
 var (
 	conf *config
@@ -42,9 +48,11 @@ func init() {
 }
 
 func main() {
+	fmt.Printf("YouDocktor: %v, commit %v, built at %v\n", version, commit, date)
+
 	// Flags
 	flag.StringVar(&fromString, "from", "2019-03-01", "From date (YYYY-MM-DD)")
-	flag.StringVar(&toString, "to", "2019-03-20", "To date (YYYY-MM-DD)")
+	flag.StringVar(&toString, "to", "2019-03-31", "To date (YYYY-MM-DD)")
 	flag.BoolVar(&dryRun, "dry-run", true, "Dry Run (no changes done)")
 	flag.BoolVar(&verbose, "verbose", false, "Verbose logs")
 	flag.BoolVar(&summary, "summary", true, "Print Summary")
@@ -99,7 +107,7 @@ func populateSheet(start time.Time, end time.Time, timeDoctorAPI *TimeDoctorAPI)
 
 		wl, err := timeDoctorAPI.GetWorkLog(date, date)
 		if err != nil {
-			log.Fatal(err)
+			logger.Fatal(err)
 			return
 		}
 
