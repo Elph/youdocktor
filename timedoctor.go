@@ -6,10 +6,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 
+	logger "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 )
 
@@ -79,7 +79,7 @@ func (api *TimeDoctorAPI) GetWorkLog(start time.Time, end time.Time) (response W
 	response = WorkLogResponse{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal("NewRequest: ", err)
+		logger.Fatal("NewRequest: ", err)
 		return
 	}
 
@@ -95,7 +95,7 @@ func (api *TimeDoctorAPI) GetWorkLog(start time.Time, end time.Time) (response W
 
 	defer resp.Body.Close()
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		log.Println(err)
+		logger.Info(err)
 	}
 	return response, nil
 }

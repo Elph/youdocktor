@@ -1,0 +1,14 @@
+{
+    "timeDoctor":{
+        "clientID":"dummy client id",
+        "clientSecret":"dummy secret id",
+        "redirectURL":"http://localhost:3013/callback",
+        "accessToken":"dummy access token",
+        "refreshToken":"dummy refresh token",
+        "expiry":"2019-03-23 00:00:00",
+        "companyID":"1"
+    },
+    "youTrack":{
+        "token":"dummy token"
+    }
+}

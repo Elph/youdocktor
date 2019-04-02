@@ -119,13 +119,21 @@ func (api *YouTrackAPI) createOrUpdateWorkItem(issueID string, workItemID string
 		url = url + "/" + workItemID
 	}
 
+	contextLogger := logger.WithFields(logger.Fields{
+		"issueID":    issueID,
+		"workItemID": workItemID,
+		"date":       date.Format("2006-01-02"),
+		"minutes":    minutes,
+		"text":       text,
+	})
+
 	timestamp := makeTimestamp(date)
 	jsonStr := fmt.Sprintf("{\"date\":%d,\"duration\":{\"minutes\":%d}, \"text\":\"%s\"}", timestamp, minutes, text)
 	json := []byte(jsonStr)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(json))
 	if err != nil {
-		log.Fatal("NewRequest: ", err)
+		contextLogger.Fatal("Request failed", err)
 		return
 	}
 
@@ -137,7 +145,7 @@ func (api *YouTrackAPI) createOrUpdateWorkItem(issueID string, workItemID string
 
 	if res.StatusCode != 200 {
 		b, _ := ioutil.ReadAll(res.Body)
-		log.Fatal(string(b))
+		contextLogger.Fatal("Response not OK", string(b))
 	}
 
 	return

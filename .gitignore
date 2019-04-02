@@ -16,3 +16,4 @@ config.json
 
 # debug output
 debug
+dist/
